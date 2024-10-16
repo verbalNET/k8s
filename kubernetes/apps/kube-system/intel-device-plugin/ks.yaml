@@ -3,19 +3,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app cert-manager
+  name: &app intel-device-plugin
   namespace: flux-system
 spec:
-  targetNamespace: cert-manager
+  targetNamespace: kube-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/main/apps/cert-manager/cert-manager/app
+  path: ./kubernetes/main/apps/kube-system/intel-device-plugin/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: k8s
-  wait: true
+  wait: false
   interval: 30m
   timeout: 5m
 ---
@@ -23,21 +23,18 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app cert-manager-issuers
+  name: &app intel-device-plugin-gpu
   namespace: flux-system
 spec:
-  targetNamespace: cert-manager
+  targetNamespace: kube-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: cert-manager
-    - name: external-secrets-stores
-  path: ./kubernetes/main/apps/cert-manager/cert-manager/issuers
+  path: ./kubernetes/main/apps/kube-system/intel-device-plugin/gpu
   prune: true
   sourceRef:
     kind: GitRepository
     name: k8s
-  wait: true
+  wait: false
   interval: 30m
   timeout: 5m
